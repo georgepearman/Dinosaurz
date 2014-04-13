@@ -19,8 +19,8 @@
 {
     if (self = [super init])
     {
-        [self schedule:@selector(moveDinos) interval:.05];
-        [self schedule:@selector(addDino) interval:10];
+        [self schedule:@selector(moveDinos) interval:.015];
+        [self schedule:@selector(addDino) interval:4];
     }
 	return self;
 }
@@ -30,24 +30,25 @@
     dinos = [[NSMutableArray alloc] init];
     // tell this scene to accept touches
     self.userInteractionEnabled = TRUE;
-    CCNode* dino = [CCBReader load:@"dinosaur"];
-    
-    CGPoint dinoPos = ccp(200, 138);
-    dino.position = [_gameplayNode convertToNodeSpace:dinoPos];
-    [_gameplayNode addChild:dino];
-    [dinos addObject:dino];
 }
 
 - (void)moveDinos {
-    for( dinosaur * dino in dinos )
+    for( int i = 0; i < [dinos count]; i++ )
     {
+        dinosaur* dino = [dinos objectAtIndex:i];
         dino.position = ccpSub(dino.position, ccp(.5, 0));
+        
+        if( dino.position.x < 0 )
+        {
+            [dinos removeObjectAtIndex:i--];
+            [_gameplayNode removeChild:dino];
+        }
     }
 }
 
 - (void) addDino {
     CCNode* dino = [CCBReader load:@"dinosaur"];
-    CGPoint dinoPos = ccp(200, 138);
+    CGPoint dinoPos = ccp(650, 70);
     dino.position = [_gameplayNode convertToNodeSpace:dinoPos];
     [_gameplayNode addChild:dino];
     [dinos addObject:dino];
