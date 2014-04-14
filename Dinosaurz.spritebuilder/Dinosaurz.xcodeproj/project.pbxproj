@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9642652E18F2208A00171EB6 /* dinosaur.m in Sources */ = {isa = PBXBuildFile; fileRef = 9642652D18F2208A00171EB6 /* dinosaur.m */; };
 		9642653118F2215800171EB6 /* Gameplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9642653018F2215800171EB6 /* Gameplay.m */; };
+		965448C618FB54660010D2C4 /* NeckMoveDino.m in Sources */ = {isa = PBXBuildFile; fileRef = 965448C518FB54660010D2C4 /* NeckMoveDino.m */; };
 		B71F5911188484E7003F4D28 /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
 		B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5908188484E7003F4D28 /* iPad-old@2x.png */; };
 		B71F5913188484E7003F4D28 /* iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5909188484E7003F4D28 /* iPad.png */; };
@@ -61,6 +62,8 @@
 		9642652D18F2208A00171EB6 /* dinosaur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = dinosaur.m; path = Source/dinosaur.m; sourceTree = "<group>"; };
 		9642652F18F2215800171EB6 /* Gameplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gameplay.h; path = Source/Gameplay.h; sourceTree = "<group>"; };
 		9642653018F2215800171EB6 /* Gameplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Gameplay.m; path = Source/Gameplay.m; sourceTree = "<group>"; };
+		965448C418FB54660010D2C4 /* NeckMoveDino.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeckMoveDino.h; sourceTree = "<group>"; };
+		965448C518FB54660010D2C4 /* NeckMoveDino.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeckMoveDino.m; sourceTree = "<group>"; };
 		B71F5907188484E7003F4D28 /* iPad-old.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old.png"; path = "Icons/iPad-old.png"; sourceTree = "<group>"; };
 		B71F5908188484E7003F4D28 /* iPad-old@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old@2x.png"; path = "Icons/iPad-old@2x.png"; sourceTree = "<group>"; };
 		B71F5909188484E7003F4D28 /* iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iPad.png; path = Icons/iPad.png; sourceTree = "<group>"; };
@@ -136,6 +139,8 @@
 				9642652D18F2208A00171EB6 /* dinosaur.m */,
 				9642652F18F2215800171EB6 /* Gameplay.h */,
 				9642653018F2215800171EB6 /* Gameplay.m */,
+				965448C418FB54660010D2C4 /* NeckMoveDino.h */,
+				965448C518FB54660010D2C4 /* NeckMoveDino.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -331,6 +336,7 @@
 				B737893F1807617C0076A88C /* AppDelegate.m in Sources */,
 				9642653118F2215800171EB6 /* Gameplay.m in Sources */,
 				9642652E18F2208A00171EB6 /* dinosaur.m in Sources */,
+				965448C618FB54660010D2C4 /* NeckMoveDino.m in Sources */,
 				B7378994180767190076A88C /* MainScene.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 			);

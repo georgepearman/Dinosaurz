@@ -8,19 +8,27 @@
 
 #import "Gameplay.h"
 #import "dinosaur.h"
+#import "NeckMoveDino.h"
+#define XTOLERANCE 10
+#define YTOLERANCE 5
+#define SPEED 2
 
 @implementation Gameplay
 {
     CCNode *_gameplayNode;
     NSMutableArray *dinos;
+    float moveNeckAmt;
+    NeckMoveDino* _neckMoveDino;
 }
 
 - (id)init
 {
     if (self = [super init])
     {
-        [self schedule:@selector(moveDinos) interval:.015];
-        [self schedule:@selector(addDino) interval:4];
+        moveNeckAmt = -.03 * SPEED;
+        [self schedule:@selector(moveNeck) interval:.05 / SPEED];
+        [self schedule:@selector(moveDinos) interval:.015 / SPEED];
+        [self schedule:@selector(addDino) interval:4 / SPEED];
     }
 	return self;
 }
@@ -30,12 +38,17 @@
     dinos = [[NSMutableArray alloc] init];
     // tell this scene to accept touches
     self.userInteractionEnabled = TRUE;
+    
+    _neckMoveDino = (NeckMoveDino*) [CCBReader load:@"Dino"];
+    CGPoint dinoPos = ccp(100, 70);
+    _neckMoveDino.position = [_gameplayNode convertToNodeSpace:dinoPos];
+    [_gameplayNode addChild:_neckMoveDino];
 }
 
 - (void)moveDinos {
     for( int i = 0; i < [dinos count]; i++ )
     {
-        dinosaur* dino = [dinos objectAtIndex:i];
+        NeckMoveDino* dino = [dinos objectAtIndex:i];
         dino.position = ccpSub(dino.position, ccp(.5, 0));
         
         if( dino.position.x < 0 )
@@ -43,15 +56,50 @@
             [dinos removeObjectAtIndex:i--];
             [_gameplayNode removeChild:dino];
         }
+        
+        else if( abs( [_gameplayNode convertToWorldSpace:dino.position].x - [_gameplayNode convertToWorldSpace: _neckMoveDino.position].x ) < XTOLERANCE && abs( [_gameplayNode convertToNodeSpace:dino->_head.position].y - [_gameplayNode convertToNodeSpace:_neckMoveDino->_head.position].y ) < YTOLERANCE )
+        {
+
+            [dinos removeObjectAtIndex:i--];
+            [_gameplayNode removeChild:dino];
+        }
     }
 }
 
 - (void) addDino {
-    CCNode* dino = [CCBReader load:@"dinosaur"];
+    NeckMoveDino* dino = [CCBReader load:@"Dino"];
+    dino.scaleX = -1;
+    float randomNeck = (float)rand() / RAND_MAX;
+    if ( rand() % 2 == 0 )
+    {
+        randomNeck = randomNeck * 2;
+    }
+    dino->_neck.scaleY = randomNeck;
+    dino->_head.position = ccp( dino->_head.position.x, dino->_head.position.y + ( randomNeck - 1 ) * 40 );
+    
     CGPoint dinoPos = ccp(650, 70);
     dino.position = [_gameplayNode convertToNodeSpace:dinoPos];
     [_gameplayNode addChild:dino];
     [dinos addObject:dino];
+}
+
+- (void) moveNeck {
+    if( _neckMoveDino->_neck.scaleY + moveNeckAmt < 2 && _neckMoveDino->_neck.scaleY + moveNeckAmt > 0 )
+    {
+        _neckMoveDino->_neck.scaleY = _neckMoveDino->_neck.scaleY + moveNeckAmt;
+        _neckMoveDino->_head.position = ccpAdd(_neckMoveDino->_head.position, ccp(0,moveNeckAmt * 40) );
+    }
+    
+}
+                            
+- (void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    moveNeckAmt = moveNeckAmt * -1;
+}
+
+-(void) touchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    moveNeckAmt = moveNeckAmt * -1;
 }
 
 @end
