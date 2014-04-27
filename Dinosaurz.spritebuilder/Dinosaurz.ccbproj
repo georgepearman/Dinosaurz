@@ -173,14 +173,11 @@
 			<integer>1</integer>
 		</dict>
 		<key>dinosaurz-background.png</key>
-		<dict>
-			<key>isDirty</key>
-			<true/>
-		</dict>
+		<dict/>
 	</dict>
 	<key>versionStr</key>
-	<string>Version: 1.0.4
-GitHub: 00a3af1cfa
+	<string>Version: 1.0.6
+GitHub: 2a1e3712de
 </string>
 </dict>
 </plist>

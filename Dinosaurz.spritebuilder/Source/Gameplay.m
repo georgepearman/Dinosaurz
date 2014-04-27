@@ -11,7 +11,7 @@
 #import "NeckMoveDino.h"
 #define XTOLERANCE 10
 #define YTOLERANCE 5
-#define SPEED 2
+#define SPEED 1.5
 
 @implementation Gameplay
 {
@@ -19,18 +19,29 @@
     NSMutableArray *dinos;
     float moveNeckAmt;
     NeckMoveDino* _neckMoveDino;
+    CCLabelTTF* _scoreLabel;
+    int score;
+    int speed;
 }
 
 - (id)init
 {
     if (self = [super init])
     {
-        moveNeckAmt = -.03 * SPEED;
-        [self schedule:@selector(moveNeck) interval:.05 / SPEED];
-        [self schedule:@selector(moveDinos) interval:.015 / SPEED];
-        [self schedule:@selector(addDino) interval:4 / SPEED];
+        speed = SPEED;
+        moveNeckAmt = -.03 * speed;
+        [self schedule:@selector(moveNeck) interval:.05 / speed];
+        [self schedule:@selector(moveDinos) interval:.015 / speed];
+        [self schedule:@selector(addDino) interval:4 / speed];
+        [self schedule:@selector(speedUp) interval:40];
+        
+        
     }
 	return self;
+}
+
+- (void)speedUp {
+    speed = speed * 1.5;
 }
 
 // is called when CCB file has completed loading
@@ -43,6 +54,9 @@
     CGPoint dinoPos = ccp(100, 70);
     _neckMoveDino.position = [_gameplayNode convertToNodeSpace:dinoPos];
     [_gameplayNode addChild:_neckMoveDino];
+    [_scoreLabel setString:@"0"];
+    score = 0;
+    
 }
 
 - (void)moveDinos {
@@ -62,6 +76,12 @@
 
             [dinos removeObjectAtIndex:i--];
             [_gameplayNode removeChild:dino];
+            
+            CCParticleSystem * particles = [CCBReader load:@"Particles"];
+            particles.position = ccp( 110, 80 + _neckMoveDino->_head.position.y );
+            [_gameplayNode addChild:particles];
+            
+            [_scoreLabel setString:[NSString stringWithFormat:@"%i", ++score]];
         }
     }
 }
