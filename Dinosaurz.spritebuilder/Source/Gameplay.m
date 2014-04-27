@@ -20,28 +20,23 @@
     float moveNeckAmt;
     NeckMoveDino* _neckMoveDino;
     CCLabelTTF* _scoreLabel;
+    CCLabelTTF* _loseLabel;
     int score;
-    int speed;
+    CCButton* _tryAgain;
 }
 
 - (id)init
 {
     if (self = [super init])
     {
-        speed = SPEED;
-        moveNeckAmt = -.03 * speed;
-        [self schedule:@selector(moveNeck) interval:.05 / speed];
-        [self schedule:@selector(moveDinos) interval:.015 / speed];
-        [self schedule:@selector(addDino) interval:4 / speed];
-        [self schedule:@selector(speedUp) interval:40];
+        moveNeckAmt = -.03 * SPEED;
+        [self schedule:@selector(moveNeck) interval:.05 / SPEED];
+        [self schedule:@selector(moveDinos) interval:.015 / SPEED];
+        [self schedule:@selector(addDino) interval:4 / SPEED];
         
         
     }
 	return self;
-}
-
-- (void)speedUp {
-    speed = speed * 1.5;
 }
 
 // is called when CCB file has completed loading
@@ -55,7 +50,10 @@
     _neckMoveDino.position = [_gameplayNode convertToNodeSpace:dinoPos];
     [_gameplayNode addChild:_neckMoveDino];
     [_scoreLabel setString:@"0"];
+    [_loseLabel setString:@""];
     score = 0;
+    [_tryAgain setVisible:false];
+    [_tryAgain setUserInteractionEnabled:false];
     
 }
 
@@ -69,6 +67,12 @@
         {
             [dinos removeObjectAtIndex:i--];
             [_gameplayNode removeChild:dino];
+            [_loseLabel setString:@"FAILURE"];
+            [self unschedule:@selector(moveNeck)];
+            [self unschedule:@selector(moveDinos)];
+            [self unschedule:@selector(addDino)];
+            [_tryAgain setVisible:true];
+            [_tryAgain setUserInteractionEnabled:true];
         }
         
         else if( abs( [_gameplayNode convertToWorldSpace:dino.position].x - [_gameplayNode convertToWorldSpace: _neckMoveDino.position].x ) < XTOLERANCE && abs( [_gameplayNode convertToNodeSpace:dino->_head.position].y - [_gameplayNode convertToNodeSpace:_neckMoveDino->_head.position].y ) < YTOLERANCE )
@@ -120,6 +124,11 @@
 -(void) touchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
     moveNeckAmt = moveNeckAmt * -1;
+}
+
+-(void) tryAgain
+{
+    [[CCDirector sharedDirector] replaceScene:[CCBReader loadAsScene:@"Gameplay"]];
 }
 
 @end
