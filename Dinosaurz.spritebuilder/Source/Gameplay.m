@@ -67,7 +67,7 @@
         {
             [dinos removeObjectAtIndex:i--];
             [_gameplayNode removeChild:dino];
-            [_loseLabel setString:@"FAILURE"];
+            [_loseLabel setString:@"You failed to defeat all the dinosaurs!"];
             [self unschedule:@selector(moveNeck)];
             [self unschedule:@selector(moveDinos)];
             [self unschedule:@selector(addDino)];
